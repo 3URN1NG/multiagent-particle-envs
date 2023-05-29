@@ -32,6 +32,22 @@ for scenario_name, gymkey in _particles.items():
         },
     )
 
+for i in [3,4,5,6,7,8,9]:
+    scenario = scenarios.load("simple_spread" + ".py").Scenario()
+    world = scenario.make_world(cust_agents=i)
+
+    # Registers multi-agent particle environments:
+    register(
+        "SimpleSpread-v0"+str(i),
+        entry_point="mpe.environment:MultiAgentEnv",
+        kwargs={
+            "world": world,
+            "reset_callback": scenario.reset_world,
+            "reward_callback": scenario.reward,
+            "observation_callback": scenario.observation,
+        },
+    )
+
 # Registers the custom double spread environment:
 
 for N in range(2, 11, 2):
